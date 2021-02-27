@@ -37,20 +37,22 @@ def trapped_water(heights):
     rp = len(heights) - 1
     max_l = max_r = 0
 
-    while rp >= lp:
-        if max_r > max_l:
-            if heights[lp] > max_l:
-                max_l = heights[lp]
+    while rp > lp:
+        cl = heights[lp]
+        cr = heights[rp]
+        if cl < cr:
+            if cl > max_l:
+                max_l = cl
             else:
-                total += max_l - heights[lp]
+                total += max_l - cl
             lp += 1
         else:
-            if heights[rp] > max_r:
-                max_r = heights[rp]
+            if cr > max_r:
+                max_r = cr
             else:
-                total += max_r - heights[rp]
+                total += max_r - cr
             rp -= 1
-    print(lp, rp)    
+    print(lp, rp)
     return total
 
 
