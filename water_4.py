@@ -28,44 +28,29 @@ examples = [
     15493,16037,3323,29703,6186,29079], 1000)
 ]
 
-
-# Solution  using two pointers
-
 def trapped_water(heights):
     total = 0
-    lp = 0
-    rp = len(heights) - 1
-    max_l = max_r = 0
+    walls = []
+    for i, h in enumerate(heights):
+        p = 0
+        while walls and heights[walls[-1]] < h:
+            wi = walls.pop()
+            wh = heights[wi]
+            if not walls:
+                break
+            bh = min(h,heights[walls[-1]])-wh
+            total += bh * (i-walls[-1]-1)
 
-    while rp >= lp:
-        if max_r > max_l:
-            print("Lft")
-            if heights[lp] > max_l:
-                max_l = heights[lp]
-            else:
-                print("Adding",  max_l - heights[lp])
-                total += max_l - heights[lp]
-            lp += 1
-        else:
-            print("Rght")
-
-            if heights[rp] > max_r:
-                max_r = heights[rp]
-            else:
-                print("Adding",  max_r - heights[rp])
-
-                total += max_r - heights[rp]
-            rp -= 1
-        print(lp, rp)
-        print(max_l, max_r)
-        print(heights[lp-1], heights[rp+1], total)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
-        print("--------------------------")
+        walls.append(i)
     return total
 
 
 for heigths, expected in examples[:-1]:
     result =  trapped_water(heigths)
     if result == expected:
-        print(f"Example   success")
+        print(f"Example {heigths} success")
     else:
-        print(f"Example failure, expected: {expected}, result: {result}")
+        print(f"Example {heigths} failure, expected: {expected}, result: {result}")
+
+
+

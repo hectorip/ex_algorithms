@@ -1,0 +1,30 @@
+{
+    "python.formatting.provider": "black",
+    "cSpell.ignoreWords": [
+        "and",
+        "append",
+        "bh",
+        "break",
+        "def",
+        "enumerate",
+        "for",
+        "h",
+        "heights",
+        "i",
+        "if",
+        "in",
+        "min",
+        "not",
+        "p",
+        "pop",
+        "return",
+        "total",
+        "trapped",
+        "walls",
+        "water",
+        "wh",
+        "while",
+        "wi"
+    ],
+    "python.pythonPath": "/home/hectorip/anaconda3/bin/python"
+}
