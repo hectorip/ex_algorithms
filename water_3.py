@@ -28,33 +28,50 @@ examples = [
     15493,16037,3323,29703,6186,29079], 1000)
 ]
 
-def trim_zeros(row):
-    row_string = "".join([str(x) for x in row])
-    row_clean = row_string.strip("0")
-    return row_clean
-
-def count_water(row):
-    clean = trim_zeros(row)
+def trapped_water(heights):
     total = 0
-    for h in clean:
-        if h == "0":
-            total += 1
+    walls = []
+    prev_h = 0
+    for i, h in enumerate(heights):
+        print("NEW Block", [h, i])
+
+        if h > prev_h:
+            j = len(walls) - 1
+            print("NEW WALL", [h, i])
+            b = [h, i]
+            while walls:
+                # print(j)
+                if walls[j][0] > b[0]:
+                    total += b[0]*((i-1)-walls[j][1])
+                    walls[j][0] -= h
+                    print("Modified Walls", walls)
+                    print("T:", total)
+
+                    break
+                else:
+                    r = [removed_wall_h, removed_wall_i] = walls.pop()
+                    total += removed_wall_h*((i-1)-removed_wall_i)
+                    b[0] -= removed_wall_h
+                    print("Removed wall ", r, [b[0], i])
+                    print("T:", total)
+
+                j -= 1
+            walls.append([h, i])
+        else:
+            if prev_h > 0:
+                walls[-1][0] -= prev_h
+                walls.append([prev_h, i-1])
+        print(walls)
+        print("------------")
+        prev_h = h
     return total
 
-def trapped_water(heights):
-    max_h = max(heights)
-    total_water = 0
-    for i in range(max_h):
-        total_water += count_water(heights)
-        for j, h in enumerate(heights):
-            if h > 0:
-                heights[j] -= 1
-    return total_water
-
-for heigths, expected in examples:
+for heigths, expected in examples[:-1]:
     result =  trapped_water(heigths)
     if result == expected:
         print(f"Example {heigths} success")
     else:
         print(f"Example {heigths} failure, expected: {expected}, result: {result}")
+
+
 
