@@ -34,36 +34,29 @@ def trapped_water(heights):
     prev_h = 0
     for i, h in enumerate(heights):
         print("NEW Block", [h, i])
-
-        if h > prev_h:
-            j = len(walls) - 1
-            print("NEW WALL", [h, i])
-            b = [h, i]
-            while walls:
-                # print(j)
-                if walls[j][0] > b[0]:
-                    total += b[0]*((i-1)-walls[j][1])
-                    walls[j][0] -= h
-                    print("Modified Walls", walls)
-                    print("T:", total)
-
-                    break
+        # Detect ne wall
+        if not h:
+            continue
+        if h != prev_h:
+            new_wall = [h, i]
+            # searching walls to close or add
+            removed_walls = 0
+            for w in walls:
+                [w_h, w_i] = w
+                if new_wall[0] >= w_h:
+                    total += w_h * (i-1-w_i)
+                    removed_walls += 1
+                    new_wall[0] -= w_h
                 else:
-                    r = [removed_wall_h, removed_wall_i] = walls.pop()
-                    total += removed_wall_h*((i-1)-removed_wall_i)
-                    b[0] -= removed_wall_h
-                    print("Removed wall ", r, [b[0], i])
-                    print("T:", total)
+                    w[0] -= new_wall[0]
+                    total += new_wall[0]*(i-1-w_i)
+                    break
 
-                j -= 1
-            walls.append([h, i])
-        else:
-            if prev_h > 0:
-                walls[-1][0] -= prev_h
-                walls.append([prev_h, i-1])
-        print(walls)
-        print("------------")
-        prev_h = h
+            walls = walls[removed_walls:]
+            walls = [[h, i]] + walls
+            print(walls, total)
+            print("--------------")
+            
     return total
 
 for heigths, expected in examples[:-1]:
