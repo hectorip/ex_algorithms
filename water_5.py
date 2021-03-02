@@ -50,7 +50,8 @@ def trapped_water(heights):
             else:
                 total += max_r - heights[rp]
             rp -= 1
-    print(lp, rp)    
+    print(lp, rp)   
+    print(max_l, max_r)   
     return total
 
 
